@@ -1,0 +1,72 @@
+git config --global credential.helper 'store' // usar credentials para login automatico
+git config --global --unset credential.helper && git config --system --unset credential.helper // descadastrar o uso de credentials para o login automatico
+git clone https://github.com/hv90/repository
+echo "# Nome_do_Repositório" >> README.md
+git init
+git status
+git add <files>
+git commit -m "comment" // sem o -m, i<enter> comment <esc> :x<enter>// dividir trabalhos
+em varias commits para possibilitar uma futura análise mais apurada sobre alteração de arquivos
+git diff //mostra as alterações no arquivo que podem ser relevadas para fazer o commit
+git fetch //verificar alterações remotas
+git merge //unir alterações remotas na pasta local
+git pull // fetch + merge
+git ls-remote == git remote -v
+git remote add origin https://github.com/user/repo
+git push >>>> git push -u origin <master/branch>
+git cherry-pick // da pull em um commit específico a partir de uma hash em remoto
+git log //exibe historico. Apertar q para sair
+git tag //uso geral para releases do projeto. seguido por git push --tag
+git checkout -b <nome_branch>
+git branch // lista as branches
+git branch <nome_branch>
+git branch -D <nome_branch>//deleta a branch
+sem o commit, git rm -f apenas deleta o file da Lan
+git reset <hash> // faz com que os commits após a hash escolhida desapareçam, mas mantém os trabalhos cujas alterações foram anteriormente commitadas
+git reset HEAD~x // faz o HEAD voltar x(num int) commits em relação ao HEAD atual 
+git rm //apaga o tracking do arquivo, mas mantem o arquivo
+git clean -f //apaga o tracking e o arquivo
+git push -f //força o git atualizar a sua visão das branches
+git rm folder --cached
+git push --delete <origin> <branch>
+git stash // cria um ou mais pontos de restauração à medida que é executado
+git stash list // lista os pontos de restauração
+git stash pop // restaura a pasta ao estado do último ponto de restauração criado
+
+cmder: mintty mode as admin (settings->startup)
+git flow init//
+branch para produção de lançamentos: [master]
+branch para próximo lançamento: [criar branch develop]
+prefixo para as branches: 
+funcionalidade: [feature/]
+manutenção: [bugfix/]
+reparo: [hotfix/]        //branch que sai da master, aplica o reparo e volta para a master.
+suporte: [support/]
+versionamento(tag): [v/]
+
+git flow feature start nomebranch //cria branch (base na develop), nomeia com prefixo,                                  // define-a para trabalho
+
+git flow feature finish nomebranch //merge feature branch dentro da develop, deleta a                                   //feature branch, define a develop para trabalho
+
+git flow feature publish nomebranch // cria uma branch remota para ser avaliada
+
+
+We settled on a workflow called Git Flow, but instead of branching features from dev, we branch them from the current release. This makes us able to work on seperate issues in different speeds. If they are successful in QA, they go into the release.
+
+Regarding branches and deployment:
+
+The dev branch is deployed automatically to test servers.
+The current release branch is deployed automatically to staging servers.
+The master branch is deployed manually to live servers by the release-master.
+The workflow is the following:
+
+1 - Create a release branch from master in the beginning of each release/sprint, e.g. release/2015-may .
+2 - Create a dev branch from release/2015-may
+3 - Working on a new feature, branch from release and name it feature/ISSUE_NUMBER.
+4 - Work on your feature.
+5 - When it's ready for testing, merge it into dev.
+6 - If it's accepted, merge it into the current release branch.
+7 - If it's not accepted, go to step 4.
+8 - When the release is ready, merge it into master
+
+After the release has been deployed to live and a critical bug is discovered, we branch a hotfix branch from master (e.g. hotfix/ISSUE_NUMBER), merge it back into master and deploy again.
